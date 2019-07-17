@@ -5,29 +5,32 @@ import random
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (25, 25, 25)
-MARGIN = 2
-SQUARE_SIZE = 10
-SQUARES_PER_LINE = 80
+MARGIN = 1
+SQUARE_SIZE = 8
+SQUARES_PER_ROW = 100
+SQUARES_PER_COL = 50
 
 #  calculate the windowns size dynamically
-WIN_SIZE = (SQUARES_PER_LINE + 1) * MARGIN + SQUARES_PER_LINE * SQUARE_SIZE
+ROW_SIZE = (SQUARES_PER_ROW + 1) * MARGIN + SQUARES_PER_ROW * SQUARE_SIZE
+COL_SIZE = (SQUARES_PER_COL + 1) * MARGIN + SQUARES_PER_COL * SQUARE_SIZE
 
+BOTTOM_SIZE = 50
 
 pygame.init()
 
 # Set the width and height of the screen [width, height]
-size = (WIN_SIZE, WIN_SIZE)
+size = (ROW_SIZE, COL_SIZE + BOTTOM_SIZE)
 screen = pygame.display.set_mode(size)
 
 # Set up initial state
-row = [0] * SQUARES_PER_LINE
+row = [0] * SQUARES_PER_ROW
 initial_state = []
-for i in range(SQUARES_PER_LINE):
+for i in range(SQUARES_PER_COL):
     initial_state.append(row.copy())
 
 # randomize it
-for r in range(SQUARES_PER_LINE):
-    for col in range(SQUARES_PER_LINE):
+for r in range(SQUARES_PER_COL):
+    for col in range(SQUARES_PER_ROW):
         initial_state[r][col] = random.randint(0, 1)
 
 
@@ -42,13 +45,13 @@ clock = pygame.time.Clock()
 
 
 # Get alive neighbours:
-def get_alive_neighbours(row, col, arr, row_len):
+def get_alive_neighbours(row, col, arr, row_len, col_len):
     alive_neighbours = 0
 
     left = col - 1 >= 0
     right = col + 1 < row_len
     top = row - 1 >= 0
-    bot = row + 1 < row_len
+    bot = row + 1 < col_len
 
     # left
     if left and arr[row][col - 1]:
@@ -110,16 +113,16 @@ while not done:
 
     # --- Game logic should go here
 
-    new_row = [0] * SQUARES_PER_LINE
+    new_row = [0] * SQUARES_PER_ROW
     new_state = []
-    for i in range(SQUARES_PER_LINE):
+    for i in range(SQUARES_PER_COL):
         new_state.append(new_row.copy())
 
     for r in range(len(initial_state)):
         for c in range(len(initial_state[0])):
             # check state of neigbours here
             alive_neighbours = get_alive_neighbours(
-                r, c, initial_state, SQUARES_PER_LINE)
+                r, c, initial_state, SQUARES_PER_ROW, SQUARES_PER_COL)
 
             # update new state for that square
             new_state[r][c] = get_next_state(
@@ -137,10 +140,10 @@ while not done:
     # --- Drawing code should go here
     y = MARGIN
     r = 0
-    while y < WIN_SIZE:
+    while y < COL_SIZE:
         c = 0
         x = MARGIN
-        while x < WIN_SIZE:
+        while x < ROW_SIZE:
             if initial_state[r][c] == 0:
                 pygame.draw.rect(screen, BLACK, pygame.Rect(
                     x, y, SQUARE_SIZE, SQUARE_SIZE))
