@@ -168,9 +168,18 @@ while not done:
     gen_text_rect.center = (gen_count.center[0], gen_count.center[1])
     screen.blit(gen_text, gen_text_rect)
 
+    # Add speed count rectangle
+    speed_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
+        3*10 + 3 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+
+    speed_text = myfont.render(f'Speed: {time_step}', True, WHITE)
+    speed_text_rect = speed_text.get_rect()
+    speed_text_rect.center = (speed_count.center[0], speed_count.center[1])
+    screen.blit(speed_text, speed_text_rect)
+
     # Add faster button
     faster = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        3*10 + 3 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        6*10 + 6 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
     fast_text = myfont.render('Faster', True, WHITE)
     fast_text_rect = fast_text.get_rect()
     fast_text_rect.center = (faster.center[0], faster.center[1])
@@ -178,7 +187,7 @@ while not done:
 
     # Add slower button
     slower = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        6*10 + 6 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        9*10 + 9 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
     slow_text = myfont.render('Slower', True, WHITE)
     slow_text_rect = slow_text.get_rect()
     slow_text_rect.center = (slower.center[0], slower.center[1])
@@ -186,7 +195,7 @@ while not done:
 
     # Add restart button
     restart = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        9*10 + 9 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        12*10 + 12 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
     restart_text = myfont.render('Restart', True, WHITE)
     restart_text_rect = restart_text.get_rect()
     restart_text_rect.center = (restart.center[0], restart.center[1])
@@ -194,7 +203,7 @@ while not done:
 
     # Add pause/play button
     pause = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        12*10 + 12 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        15*10 + 15 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
     pause_text = myfont.render('Stop/Play', True, WHITE)
     pause_text_rect = pause_text.get_rect()
     pause_text_rect.center = (pause.center[0], pause.center[1])
