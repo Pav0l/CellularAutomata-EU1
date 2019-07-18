@@ -32,7 +32,7 @@ initial_state = []
 for i in range(SQUARES_PER_COL):
     initial_state.append(row.copy())
 
-# randomize it
+# Randomize initial state
 for r in range(SQUARES_PER_COL):
     for col in range(SQUARES_PER_ROW):
         initial_state[r][col] = random.randint(0, 1)
@@ -114,8 +114,11 @@ myfont = pygame.font.Font('freesansbold.ttf', 13)
 
 # -------- Main Program Loop -----------
 while not done:
-    # --- Game logic should go here
+    # --- Game logic
+
+    # if not paused
     if runnig:
+        # setup new state
         new_row = [0] * SQUARES_PER_ROW
         new_state = []
         for i in range(SQUARES_PER_COL):
@@ -127,7 +130,7 @@ while not done:
                 alive_neighbours = get_alive_neighbours(
                     r, c, initial_state, SQUARES_PER_ROW, SQUARES_PER_COL)
 
-                # update new state for that square
+                # update new state for square at row r and col c
                 new_state[r][c] = get_next_state(
                     alive_neighbours, initial_state[r][c])
 
@@ -135,13 +138,13 @@ while not done:
         initial_state = new_state
         generation += 1
 
-    # --- Screen-clearing code goes here
+    # --- Screen-clearing code
 
     # Here, we clear the screen to gray. Don't put other drawing commands
     # above this, or they will be erased with this command.
     screen.fill(GRAY)
 
-    # --- Drawing code should go here
+    # --- Drawing code
     y = MARGIN
     r = 0
     while y < COL_SIZE:
@@ -213,32 +216,33 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        # mouse click events
         if event.type == pygame.MOUSEBUTTONDOWN:
             click_position = pygame.mouse.get_pos()
-
+            # run faster
             if faster.collidepoint(click_position) and time_step <= 20:
                 time_step += 1
-
+            # run slower
             elif slower.collidepoint(click_position) and time_step > 1:
                 time_step -= 1
-
+            # restart the game (reset generation count, time_step and initial_state)
             elif restart.collidepoint(click_position):
                 generation = 0
                 time_step = 5
                 for r in range(SQUARES_PER_COL):
                     for col in range(SQUARES_PER_ROW):
                         initial_state[r][col] = random.randint(0, 1)
-
+            # pause game
             elif pause.collidepoint(click_position) and runnig:
                 runnig = False
-
+            # unpause game
             elif pause.collidepoint(click_position) and not runnig:
                 runnig = True
 
-    # --- Go ahead and update the screen with what we've drawn.
+    # --- Update the screen with what we've drawn.
     pygame.display.flip()
 
-    # --- Limit to 5 frames per second
+    # --- Limit frames per second
     clock.tick(time_step)
 
 # Close the window and quit.
