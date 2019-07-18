@@ -114,30 +114,6 @@ myfont = pygame.font.Font('freesansbold.ttf', 13)
 
 # -------- Main Program Loop -----------
 while not done:
-    # --- Main event loop
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            click_position = pygame.mouse.get_pos()
-
-            if faster.collidepoint(click_position) and time_step <= 20:
-                time_step += 1
-
-            elif slower.collidepoint(click_position) and time_step > 1:
-                time_step -= 1
-
-            elif restart.collidepoint(click_position):
-                for r in range(SQUARES_PER_COL):
-                    for col in range(SQUARES_PER_ROW):
-                        initial_state[r][col] = random.randint(0, 1)
-
-            elif pause.collidepoint(click_position) and runnig:
-                runnig = False
-
-            elif pause.collidepoint(click_position) and not runnig:
-                runnig = True
-
     # --- Game logic should go here
     if runnig:
         new_row = [0] * SQUARES_PER_ROW
@@ -223,6 +199,30 @@ while not done:
     pause_text_rect = pause_text.get_rect()
     pause_text_rect.center = (pause.center[0], pause.center[1])
     screen.blit(pause_text, pause_text_rect)
+
+    # --- Main event loop
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            click_position = pygame.mouse.get_pos()
+
+            if faster.collidepoint(click_position) and time_step <= 20:
+                time_step += 1
+
+            elif slower.collidepoint(click_position) and time_step > 1:
+                time_step -= 1
+
+            elif restart.collidepoint(click_position):
+                for r in range(SQUARES_PER_COL):
+                    for col in range(SQUARES_PER_ROW):
+                        initial_state[r][col] = random.randint(0, 1)
+
+            elif pause.collidepoint(click_position) and runnig:
+                runnig = False
+
+            elif pause.collidepoint(click_position) and not runnig:
+                runnig = True
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
