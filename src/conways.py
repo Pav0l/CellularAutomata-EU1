@@ -13,17 +13,25 @@ SQUARES_PER_COL = 50
 #  calculate the windowns size dynamically
 ROW_SIZE = (SQUARES_PER_ROW + 1) * MARGIN + SQUARES_PER_ROW * SQUARE_SIZE
 COL_SIZE = (SQUARES_PER_COL + 1) * MARGIN + SQUARES_PER_COL * SQUARE_SIZE
-BTN_SIZE = 30
-BOTTOM_SIZE = BTN_SIZE + 20
+BTN_HEIGHT = 30
+BTN_WIDTH = ROW_SIZE // 6
+BTN_MARGIN = 10
 
+FOOTER_SIZE = BTN_HEIGHT + 20
+
+if BTN_WIDTH > 110:
+    BTN_WIDTH = 110
+
+# Keep track of counters and other variables
 generation = 0
 time_step = 5
 runnig = True
+btn_count = 0
 
 pygame.init()
 
 # Set the width and height of the screen [width, height]
-size = (ROW_SIZE, COL_SIZE + BOTTOM_SIZE)
+size = (ROW_SIZE, COL_SIZE + FOOTER_SIZE)
 screen = pygame.display.set_mode(size)
 
 # Set up initial state
@@ -163,18 +171,18 @@ while not done:
         y += MARGIN + SQUARE_SIZE
 
     # Add generation count rectangle
-    gen_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
-        10, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
-
+    gen_count = pygame.draw.rect(screen, BLACK, pygame.Rect(
+        10, COL_SIZE + 10, BTN_WIDTH, BTN_HEIGHT))
+    btn_count += 1
     gen_text = myfont.render(f'Generation: {generation}', True, WHITE)
     gen_text_rect = gen_text.get_rect()
     gen_text_rect.center = (gen_count.center[0], gen_count.center[1])
     screen.blit(gen_text, gen_text_rect)
 
     # Add speed count rectangle
-    speed_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
-        3*10 + 3 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
-
+    speed_count = pygame.draw.rect(screen, BLACK, pygame.Rect(
+        10 + btn_count * (10 + BTN_WIDTH), COL_SIZE + 10, BTN_WIDTH, BTN_HEIGHT))
+    btn_count += 1
     speed_text = myfont.render(f'Speed: {time_step}', True, WHITE)
     speed_text_rect = speed_text.get_rect()
     speed_text_rect.center = (speed_count.center[0], speed_count.center[1])
@@ -182,7 +190,8 @@ while not done:
 
     # Add faster button
     faster = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        6*10 + 6 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        BTN_MARGIN + btn_count * (BTN_MARGIN + BTN_WIDTH), COL_SIZE + BTN_MARGIN, BTN_WIDTH, BTN_HEIGHT))
+    btn_count += 1
     fast_text = myfont.render('Faster', True, WHITE)
     fast_text_rect = fast_text.get_rect()
     fast_text_rect.center = (faster.center[0], faster.center[1])
@@ -190,7 +199,8 @@ while not done:
 
     # Add slower button
     slower = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        9*10 + 9 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        BTN_MARGIN + btn_count * (BTN_MARGIN + BTN_WIDTH), COL_SIZE + BTN_MARGIN, BTN_WIDTH, BTN_HEIGHT))
+    btn_count += 1
     slow_text = myfont.render('Slower', True, WHITE)
     slow_text_rect = slow_text.get_rect()
     slow_text_rect.center = (slower.center[0], slower.center[1])
@@ -198,7 +208,8 @@ while not done:
 
     # Add restart button
     restart = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        12*10 + 12 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        BTN_MARGIN + btn_count * (BTN_MARGIN + BTN_WIDTH), COL_SIZE + BTN_MARGIN, BTN_WIDTH, BTN_HEIGHT))
+    btn_count += 1
     restart_text = myfont.render('Restart', True, WHITE)
     restart_text_rect = restart_text.get_rect()
     restart_text_rect.center = (restart.center[0], restart.center[1])
@@ -206,12 +217,15 @@ while not done:
 
     # Add pause/play button
     pause = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        15*10 + 15 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        BTN_MARGIN + btn_count * (BTN_MARGIN + BTN_WIDTH), COL_SIZE + BTN_MARGIN, BTN_WIDTH, BTN_HEIGHT))
+    btn_count += 1
     pause_text = myfont.render('Stop/Play', True, WHITE)
     pause_text_rect = pause_text.get_rect()
     pause_text_rect.center = (pause.center[0], pause.center[1])
     screen.blit(pause_text, pause_text_rect)
 
+    # Reset button count for next while loop
+    btn_count = 0
     # --- Main event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
