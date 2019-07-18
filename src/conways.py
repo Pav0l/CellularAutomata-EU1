@@ -1,6 +1,7 @@
 import pygame
 import random
 from penta_decathlon import penta_decathlon
+from hwss import hwss
 
 # Define some colors and other constants
 BLACK = (0, 0, 0)
@@ -42,11 +43,22 @@ for i in range(SQUARES_PER_COL):
     initial_state.append(row.copy())
 
 # Randomize initial state
-# for r in range(SQUARES_PER_COL):
-#     for col in range(SQUARES_PER_ROW):
-#         initial_state[r][col] = random.randint(0, 1)
+for r in range(SQUARES_PER_COL):
+    for col in range(SQUARES_PER_ROW):
+        initial_state[r][col] = random.randint(0, 1)
 
-initial_state = penta_decathlon(initial_state, 5, 5)
+"""
+If you want to initialize premade starting state
+Comment out the nested for loop above (line 46 - 48)
+And uncomment some lines below (line 55 - 61)
+"""
+# initial_state = penta_decathlon(initial_state, 5, 5)
+# initial_state = penta_decathlon(initial_state, 15, 15)
+# initial_state = penta_decathlon(initial_state, 5, 25)
+# initial_state = penta_decathlon(initial_state, 35, 50)
+# initial_state = penta_decathlon(initial_state, 15, 60)
+# initial_state = hwss(initial_state, 25, 50)
+# initial_state = hwss(initial_state, 10, 75)
 
 # Add a title
 pygame.display.set_caption("Conway's Game of Life")
