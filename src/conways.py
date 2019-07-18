@@ -132,25 +132,31 @@ while not done:
                     for col in range(SQUARES_PER_ROW):
                         initial_state[r][col] = random.randint(0, 1)
 
+            elif pause.collidepoint(click_position) and runnig:
+                runnig = False
+
+            elif pause.collidepoint(click_position) and not runnig:
+                runnig = True
+
     # --- Game logic should go here
+    if runnig:
+        new_row = [0] * SQUARES_PER_ROW
+        new_state = []
+        for i in range(SQUARES_PER_COL):
+            new_state.append(new_row.copy())
 
-    new_row = [0] * SQUARES_PER_ROW
-    new_state = []
-    for i in range(SQUARES_PER_COL):
-        new_state.append(new_row.copy())
+        for r in range(len(initial_state)):
+            for c in range(len(initial_state[0])):
+                # check state of neigbours here
+                alive_neighbours = get_alive_neighbours(
+                    r, c, initial_state, SQUARES_PER_ROW, SQUARES_PER_COL)
 
-    for r in range(len(initial_state)):
-        for c in range(len(initial_state[0])):
-            # check state of neigbours here
-            alive_neighbours = get_alive_neighbours(
-                r, c, initial_state, SQUARES_PER_ROW, SQUARES_PER_COL)
+                # update new state for that square
+                new_state[r][c] = get_next_state(
+                    alive_neighbours, initial_state[r][c])
 
-            # update new state for that square
-            new_state[r][c] = get_next_state(
-                alive_neighbours, initial_state[r][c])
-
-    # update new state
-    initial_state = new_state
+        # update new state
+        initial_state = new_state
 
     # --- Screen-clearing code goes here
 
@@ -202,13 +208,21 @@ while not done:
     slow_text_rect.center = (slower.center[0], slower.center[1])
     screen.blit(slow_text, slow_text_rect)
 
-    # Add slower button
+    # Add restart button
     restart = pygame.draw.rect(screen, BLACK, pygame.Rect(
         9*10 + 9 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
     restart_text = myfont.render('Restart', True, WHITE)
     restart_text_rect = restart_text.get_rect()
     restart_text_rect.center = (restart.center[0], restart.center[1])
     screen.blit(restart_text, restart_text_rect)
+
+    # Add pause/play button
+    pause = pygame.draw.rect(screen, BLACK, pygame.Rect(
+        12*10 + 12 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+    pause_text = myfont.render('Stop/Play', True, WHITE)
+    pause_text_rect = pause_text.get_rect()
+    pause_text_rect.center = (pause.center[0], pause.center[1])
+    screen.blit(pause_text, pause_text_rect)
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
