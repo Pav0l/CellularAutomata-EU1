@@ -127,6 +127,11 @@ while not done:
             elif slower.collidepoint(click_position) and time_step > 1:
                 time_step -= 1
 
+            elif restart.collidepoint(click_position):
+                for r in range(SQUARES_PER_COL):
+                    for col in range(SQUARES_PER_ROW):
+                        initial_state[r][col] = random.randint(0, 1)
+
     # --- Game logic should go here
 
     new_row = [0] * SQUARES_PER_ROW
@@ -196,6 +201,14 @@ while not done:
     slow_text_rect = slow_text.get_rect()
     slow_text_rect.center = (slower.center[0], slower.center[1])
     screen.blit(slow_text, slow_text_rect)
+
+    # Add slower button
+    restart = pygame.draw.rect(screen, BLACK, pygame.Rect(
+        9*10 + 9 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+    restart_text = myfont.render('Restart', True, WHITE)
+    restart_text_rect = restart_text.get_rect()
+    restart_text_rect.center = (restart.center[0], restart.center[1])
+    screen.blit(restart_text, restart_text_rect)
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
