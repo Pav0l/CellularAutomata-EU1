@@ -118,11 +118,14 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-        # if event.type == pygame.MOUSEBUTTONDOWN:
-        #     click_position = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            click_position = pygame.mouse.get_pos()
 
-        #     if gen_count.collidepoint(click_position):
-        #         print('Clicked generation count')
+            if faster.collidepoint(click_position) and time_step <= 20:
+                time_step += 1
+
+            elif slower.collidepoint(click_position) and time_step > 1:
+                time_step -= 1
 
     # --- Game logic should go here
 
