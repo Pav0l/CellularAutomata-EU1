@@ -133,6 +133,7 @@ while not done:
 
         # update new state
         initial_state = new_state
+        generation += 1
 
     # --- Screen-clearing code goes here
 
@@ -159,7 +160,6 @@ while not done:
         y += MARGIN + SQUARE_SIZE
 
     # Add generation count rectangle
-    generation += 1
     gen_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
         10, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
 
