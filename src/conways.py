@@ -224,6 +224,7 @@ while not done:
 
             elif restart.collidepoint(click_position):
                 generation = 0
+                time_step = 5
                 for r in range(SQUARES_PER_COL):
                     for col in range(SQUARES_PER_ROW):
                         initial_state[r][col] = random.randint(0, 1)
