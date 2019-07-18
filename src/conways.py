@@ -178,13 +178,21 @@ while not done:
     gen_text_rect.center = (gen_count.center[0], gen_count.center[1])
     screen.blit(gen_text, gen_text_rect)
 
-    # Add faster/slower buttons
+    # Add faster button
     faster = pygame.draw.rect(screen, BLACK, pygame.Rect(
-        2*10 + 3 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+        3*10 + 3 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
     fast_text = myfont.render('Faster', True, WHITE)
     fast_text_rect = fast_text.get_rect()
     fast_text_rect.center = (faster.center[0], faster.center[1])
     screen.blit(fast_text, fast_text_rect)
+
+    # Add slower button
+    slower = pygame.draw.rect(screen, BLACK, pygame.Rect(
+        6*10 + 6 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+    slow_text = myfont.render('Slower', True, WHITE)
+    slow_text_rect = slow_text.get_rect()
+    slow_text_rect.center = (slower.center[0], slower.center[1])
+    screen.blit(slow_text, slow_text_rect)
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
