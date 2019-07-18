@@ -234,7 +234,7 @@ while not done:
         if event.type == pygame.MOUSEBUTTONDOWN:
             click_position = pygame.mouse.get_pos()
             # run faster
-            if faster.collidepoint(click_position) and time_step <= 20:
+            if faster.collidepoint(click_position) and time_step < 20:
                 time_step += 1
             # run slower
             elif slower.collidepoint(click_position) and time_step > 1:
