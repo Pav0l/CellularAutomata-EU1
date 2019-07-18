@@ -171,7 +171,7 @@ while not done:
         y += MARGIN + SQUARE_SIZE
 
     # Add generation count rectangle
-    gen_count = pygame.draw.rect(screen, BLACK, pygame.Rect(
+    gen_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
         10, COL_SIZE + 10, BTN_WIDTH, BTN_HEIGHT))
     btn_count += 1
     gen_text = myfont.render(f'Generation: {generation}', True, WHITE)
@@ -180,7 +180,7 @@ while not done:
     screen.blit(gen_text, gen_text_rect)
 
     # Add speed count rectangle
-    speed_count = pygame.draw.rect(screen, BLACK, pygame.Rect(
+    speed_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
         10 + btn_count * (10 + BTN_WIDTH), COL_SIZE + 10, BTN_WIDTH, BTN_HEIGHT))
     btn_count += 1
     speed_text = myfont.render(f'Speed: {time_step}', True, WHITE)
