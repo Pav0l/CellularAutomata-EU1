@@ -6,15 +6,15 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (25, 25, 25)
 MARGIN = 1
-SQUARE_SIZE = 8
+SQUARE_SIZE = 10
 SQUARES_PER_ROW = 100
 SQUARES_PER_COL = 50
 
 #  calculate the windowns size dynamically
 ROW_SIZE = (SQUARES_PER_ROW + 1) * MARGIN + SQUARES_PER_ROW * SQUARE_SIZE
 COL_SIZE = (SQUARES_PER_COL + 1) * MARGIN + SQUARES_PER_COL * SQUARE_SIZE
-
-BOTTOM_SIZE = 50
+BTN_SIZE = 30
+BOTTOM_SIZE = BTN_SIZE + 20
 
 pygame.init()
 
@@ -104,12 +104,26 @@ def get_next_state(alive_neighbours, current_state):
         return current_state
 
 
+generation = 0
+time_step = 5
+runnig = True
+
+# Display generation count
+
+myfont = pygame.font.Font('freesansbold.ttf', 10)
+
+
 # -------- Main Program Loop -----------
 while not done:
     # --- Main event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+        #     click_position = pygame.mouse.get_pos()
+
+        #     if gen_count.collidepoint(click_position):
+        #         print('Clicked generation count')
 
     # --- Game logic should go here
 
@@ -155,11 +169,20 @@ while not done:
         r += 1
         y += MARGIN + SQUARE_SIZE
 
+    gen_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
+        10, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+
+    generation += 1
+    text = myfont.render(f'Generation: {generation}', True, WHITE)
+    text_rect = text.get_rect()
+    text_rect.center = (gen_count.center[0], gen_count.center[1])
+    screen.blit(text, text_rect)
+
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
     # --- Limit to 5 frames per second
-    clock.tick(5)
+    clock.tick(time_step)
 
 # Close the window and quit.
 pygame.quit()
