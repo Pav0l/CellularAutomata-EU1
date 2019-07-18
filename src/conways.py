@@ -27,7 +27,7 @@ if BTN_WIDTH > 110:
 
 # Keep track of counters and other variables
 generation = 0
-time_step = 1
+time_step = 5
 runnig = True
 btn_count = 0
 
@@ -53,15 +53,17 @@ If you want to initialize premade starting state
 Comment out the nested for loop above (line 47 - 49)
 And uncomment some lines below (line 57 - 63)
 If you want to see Pulsar, run only that starting state (line 64)
+
+Or just press the Disco button
 """
-# initial_state = penta_decathlon(initial_state, 5, 5)
+# initial_state = penta_decathlon(initial_state, 20, 5)
 # initial_state = penta_decathlon(initial_state, 15, 15)
 # initial_state = penta_decathlon(initial_state, 5, 25)
 # initial_state = penta_decathlon(initial_state, 35, 50)
-# initial_state = penta_decathlon(initial_state, 15, 60)
+# initial_state = penta_decathlon(initial_state, 20, 85)
 # initial_state = hwss(initial_state, 25, 50)
 # initial_state = hwss(initial_state, 10, 75)
-# initial_state = pulsar(initial_state, 25, 50)
+# initial_state = pulsar(initial_state, 20, 40)
 
 # Add a title
 pygame.display.set_caption("Conway's Game of Life")
@@ -166,6 +168,16 @@ while not done:
             elif pause.collidepoint(click_position) and not runnig:
                 runnig = True
 
+            # disco game
+            elif disco.collidepoint(click_position):
+                generation = 0
+                for r in range(SQUARES_PER_COL):
+                    for col in range(SQUARES_PER_ROW):
+                        initial_state[r][col] = 0
+                initial_state = penta_decathlon(initial_state, 20, 5)
+                initial_state = penta_decathlon(initial_state, 20, 85)
+                initial_state = pulsar(initial_state, 20, 40)
+
     # --- Game logic
 
     # if not paused
@@ -267,6 +279,15 @@ while not done:
     pause_text_rect = pause_text.get_rect()
     pause_text_rect.center = (pause.center[0], pause.center[1])
     screen.blit(pause_text, pause_text_rect)
+
+    # Add disco button
+    disco = pygame.draw.rect(screen, BLACK, pygame.Rect(
+        BTN_MARGIN + btn_count * (BTN_MARGIN + BTN_WIDTH), COL_SIZE + BTN_MARGIN, BTN_WIDTH, BTN_HEIGHT))
+    btn_count += 1
+    disco_text = myfont.render('Disco', True, WHITE)
+    disco_text_rect = disco_text.get_rect()
+    disco_text_rect.center = (disco.center[0], disco.center[1])
+    screen.blit(disco_text, disco_text_rect)
 
     # Reset button count for next while loop
     btn_count = 0
