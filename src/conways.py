@@ -2,6 +2,7 @@ import pygame
 import random
 from penta_decathlon import penta_decathlon
 from hwss import hwss
+from pulsar import pulsar
 
 # Define some colors and other constants
 BLACK = (0, 0, 0)
@@ -26,7 +27,7 @@ if BTN_WIDTH > 110:
 
 # Keep track of counters and other variables
 generation = 0
-time_step = 5
+time_step = 1
 runnig = True
 btn_count = 0
 
@@ -49,8 +50,9 @@ for r in range(SQUARES_PER_COL):
 
 """
 If you want to initialize premade starting state
-Comment out the nested for loop above (line 46 - 48)
-And uncomment some lines below (line 55 - 61)
+Comment out the nested for loop above (line 47 - 49)
+And uncomment some lines below (line 57 - 63)
+If you want to see Pulsar, run only that starting state (line 64)
 """
 # initial_state = penta_decathlon(initial_state, 5, 5)
 # initial_state = penta_decathlon(initial_state, 15, 15)
@@ -59,6 +61,7 @@ And uncomment some lines below (line 55 - 61)
 # initial_state = penta_decathlon(initial_state, 15, 60)
 # initial_state = hwss(initial_state, 25, 50)
 # initial_state = hwss(initial_state, 10, 75)
+# initial_state = pulsar(initial_state, 25, 50)
 
 # Add a title
 pygame.display.set_caption("Conway's Game of Life")
