@@ -1,5 +1,6 @@
 import pygame
 import random
+from penta_decathlon import penta_decathlon
 
 # Define some colors and other constants
 BLACK = (0, 0, 0)
@@ -41,10 +42,11 @@ for i in range(SQUARES_PER_COL):
     initial_state.append(row.copy())
 
 # Randomize initial state
-for r in range(SQUARES_PER_COL):
-    for col in range(SQUARES_PER_ROW):
-        initial_state[r][col] = random.randint(0, 1)
+# for r in range(SQUARES_PER_COL):
+#     for col in range(SQUARES_PER_ROW):
+#         initial_state[r][col] = random.randint(0, 1)
 
+initial_state = penta_decathlon(initial_state, 5, 5)
 
 # Add a title
 pygame.display.set_caption("Conway's Game of Life")
@@ -122,6 +124,33 @@ myfont = pygame.font.Font('freesansbold.ttf', 13)
 
 # -------- Main Program Loop -----------
 while not done:
+    # --- Main event loop
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+        # mouse click events
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            click_position = pygame.mouse.get_pos()
+            # run faster
+            if faster.collidepoint(click_position) and time_step < 20:
+                time_step += 1
+            # run slower
+            elif slower.collidepoint(click_position) and time_step > 1:
+                time_step -= 1
+            # restart the game (reset generation count, time_step and initial_state)
+            elif restart.collidepoint(click_position):
+                generation = 0
+                time_step = 5
+                for r in range(SQUARES_PER_COL):
+                    for col in range(SQUARES_PER_ROW):
+                        initial_state[r][col] = random.randint(0, 1)
+            # pause game
+            elif pause.collidepoint(click_position) and runnig:
+                runnig = False
+            # unpause game
+            elif pause.collidepoint(click_position) and not runnig:
+                runnig = True
+
     # --- Game logic
 
     # if not paused
@@ -226,32 +255,6 @@ while not done:
 
     # Reset button count for next while loop
     btn_count = 0
-    # --- Main event loop
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-        # mouse click events
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            click_position = pygame.mouse.get_pos()
-            # run faster
-            if faster.collidepoint(click_position) and time_step < 20:
-                time_step += 1
-            # run slower
-            elif slower.collidepoint(click_position) and time_step > 1:
-                time_step -= 1
-            # restart the game (reset generation count, time_step and initial_state)
-            elif restart.collidepoint(click_position):
-                generation = 0
-                time_step = 5
-                for r in range(SQUARES_PER_COL):
-                    for col in range(SQUARES_PER_ROW):
-                        initial_state[r][col] = random.randint(0, 1)
-            # pause game
-            elif pause.collidepoint(click_position) and runnig:
-                runnig = False
-            # unpause game
-            elif pause.collidepoint(click_position) and not runnig:
-                runnig = True
 
     # --- Update the screen with what we've drawn.
     pygame.display.flip()
