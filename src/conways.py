@@ -16,6 +16,10 @@ COL_SIZE = (SQUARES_PER_COL + 1) * MARGIN + SQUARES_PER_COL * SQUARE_SIZE
 BTN_SIZE = 30
 BOTTOM_SIZE = BTN_SIZE + 20
 
+generation = 0
+time_step = 5
+runnig = True
+
 pygame.init()
 
 # Set the width and height of the screen [width, height]
@@ -104,13 +108,8 @@ def get_next_state(alive_neighbours, current_state):
         return current_state
 
 
-generation = 0
-time_step = 5
-runnig = True
-
-# Display generation count
-
-myfont = pygame.font.Font('freesansbold.ttf', 10)
+# Setup font
+myfont = pygame.font.Font('freesansbold.ttf', 13)
 
 
 # -------- Main Program Loop -----------
@@ -169,14 +168,23 @@ while not done:
         r += 1
         y += MARGIN + SQUARE_SIZE
 
+    # Add generation count rectangle
+    generation += 1
     gen_count = pygame.draw.rect(screen, GRAY, pygame.Rect(
         10, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
 
-    generation += 1
-    text = myfont.render(f'Generation: {generation}', True, WHITE)
-    text_rect = text.get_rect()
-    text_rect.center = (gen_count.center[0], gen_count.center[1])
-    screen.blit(text, text_rect)
+    gen_text = myfont.render(f'Generation: {generation}', True, WHITE)
+    gen_text_rect = gen_text.get_rect()
+    gen_text_rect.center = (gen_count.center[0], gen_count.center[1])
+    screen.blit(gen_text, gen_text_rect)
+
+    # Add faster/slower buttons
+    faster = pygame.draw.rect(screen, BLACK, pygame.Rect(
+        2*10 + 3 * BTN_SIZE, COL_SIZE + 10, 3 * BTN_SIZE, BTN_SIZE))
+    fast_text = myfont.render('Faster', True, WHITE)
+    fast_text_rect = fast_text.get_rect()
+    fast_text_rect.center = (faster.center[0], faster.center[1])
+    screen.blit(fast_text, fast_text_rect)
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
